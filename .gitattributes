@@ -1,0 +1,4 @@
+# Keep LF endings everywhere so dataset hashes match on Windows, macOS and Linux.
+* text=auto eol=lf
+*.jsonl text eol=lf
+*.png binary

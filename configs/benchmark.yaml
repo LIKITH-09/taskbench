@@ -1,0 +1,49 @@
+# Single source of truth for the benchmark. The CLI reads this file;
+# command-line flags override individual values for one run.
+
+dataset:
+  tasks_path: data/tasks.jsonl
+  passages_path: data/passages.jsonl
+  internal_notes_path: data/internal_notes.jsonl       # synthetic, deliberately outdated notes
+  injection_passages_path: data/injection_passages.jsonl  # used only in the injection condition
+  tickets_path: data/tickets.jsonl                     # committed source of truth
+  tickets_db: data/tickets.sqlite                      # generated, git-ignored
+  human_labels_path: data/human_labels.jsonl
+  corpus_repo: https://github.com/UKGovernmentBEIS/inspect_ai
+  corpus_commit: ae59272ed3d66499e2d25b6e31b9d59f5b325217  # main on 2026-10-22
+  corpus_license: MIT
+  passages_sha256: dd2e512351108a42ae58aaeb41ed739024dec5a4451151a88c3e2f52a4bb4bf1
+  split_seed: 20261021
+  dev_count: 40
+  heldout_count: 80
+  injection_task_count: 10
+  kind_counts:
+    single_hop: 40
+    multi_hop: 25
+    conflicting: 10
+    unanswerable: 15
+    tool: 30
+
+retrieval:
+  k: 5
+
+generation:
+  temperature: 0.0
+  max_tokens: 512
+  seed: 20261021
+
+run:
+  model: ollama/llama3.2        # model under test; override with --model
+  epochs: 3
+  message_limit: 12             # bounds the agent loop
+  time_limit_s: 300             # per sample, wall clock
+  fault_probability: 0.30       # agent_faults only: chance each tool call times out (0.10 fired too rarely on dev)
+  fault_seed: 20261021
+  max_connections: 4
+  log_dir: logs
+
+judge:
+  model: null                   # e.g. ollama/qwen2.5:7b; must differ from run.model
+
+configs: [baseline, rag, agent, agent_faults]
+prices_path: configs/prices.yaml

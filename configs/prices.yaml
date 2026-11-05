@@ -1,0 +1,22 @@
+# USD per 1,000,000 tokens. Every price needs source_url and checked_on;
+# the loader rejects a price without them. Do not report paid-model cost
+# until the entry below is filled from the provider's pricing page.
+prices:
+  ollama/llama3.2:
+    input_usd_per_million: 0.0
+    output_usd_per_million: 0.0
+    source_url: local
+    checked_on: "2026-10-22"
+  # Fill in before using it as the reference for estimated cost:
+  # openai/gpt-4o-mini:
+  #   input_usd_per_million: <from pricing page>
+  #   output_usd_per_million: <from pricing page>
+  #   source_url: https://openai.com/api/pricing/
+  #   checked_on: "YYYY-MM-DD"
+
+# Local runs have no API charge. To show what the same tokens would cost on a
+# paid model, name a priced model here. Report the result as an estimate.
+estimate_local_with: null
+
+notes:
+  local_ollama: "Direct API cost is $0; this excludes hardware and electricity."

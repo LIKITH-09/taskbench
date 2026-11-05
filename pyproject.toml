@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taskbench"
+version = "0.1.0"
+description = "A reproducible benchmark of LLM application quality, reliability and cost: baseline vs RAG vs tool-using agent"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+  # Exact pin: Inspect AI ships breaking changes as patch releases, so a range
+  # such as <0.4 does not protect results. Upgrade deliberately and re-run tests.
+  "inspect-ai==0.3.283",
+  "rank-bm25>=0.2.2,<0.3",
+  "pydantic>=2.13,<3",
+  "PyYAML>=6.0,<7",
+  "matplotlib>=3.8,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<9", "ruff>=0.6,<1"]
+ollama = ["openai>=1.0"]  # Inspect's ollama provider uses the OpenAI-compatible client
+
+[project.scripts]
+taskbench = "taskbench.run:main"
+
+[tool.setuptools.packages.find]
+include = ["taskbench*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -m 'not integration'"
+markers = [
+  "inspect: needs inspect-ai installed; runs offline on the mock model",
+  "integration: needs a live model (set TASKBENCH_OLLAMA=1)",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["logs", "results"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"scripts/draft_tasks.py" = ["E501"]
