@@ -77,4 +77,6 @@ Change tasks only before the held-out freeze. Record every change in `NOTES.md`.
 
 ## Human labels
 
+**Shortcut:** after `taskbench label-sheet --run-id <id>`, run `python scripts/label_answers.py --run-id <id> --labeler YOUR-NAME`. It shows each answer blind, asks `c`orrect / `i`ncorrect / `s`kip, and saves `data/human_labels.jsonl` after every answer. Do it before reading `summary.md`.
+
 After the first held-out run, `taskbench label-sheet --run-id <id>` writes 50 answers to `results/runs/<id>/label_sheet.jsonl` without their automatic scores. Fill in `label` (`correct` or `incorrect`) and `labeler` **before** looking at `summary.md`, then save the rows to `data/human_labels.jsonl` and run `taskbench calibrate --run-id <id>`.

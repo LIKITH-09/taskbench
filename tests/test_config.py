@@ -50,7 +50,9 @@ def test_commit_must_be_full_hash():
 def test_repo_prices_load():
     prices = load_prices(REPO_ROOT / "configs" / "prices.yaml")
     assert prices.price_for("ollama/llama3.2") is not None
-    assert prices.reference_price() is None
+    ref = prices.reference_price()
+    assert ref is not None and ref.source_url and ref.checked_on
+    assert prices.price_for("ollama/qwen2.5:7b").input_usd_per_million == 0.0
 
 
 def test_price_requires_source_and_date():
